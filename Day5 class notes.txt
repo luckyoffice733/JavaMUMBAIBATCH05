@@ -1,0 +1,238 @@
+package com.examly;
+
+public class ExampleOnOverloading {
+
+   //char->int->long->float->double
+   public void methodOne(int x){
+    System.out.println("we are in methodOne of int type: "+x);
+   }
+
+   public double methodOne(double a, double b){
+      System.out.println("we are methodOne of double type: ");
+      return a+b;
+   }
+   public static void main(String[] args) {
+    
+     ExampleOnOverloading eov = new ExampleOnOverloading();
+     eov.methodOne('d');//methodOne(char)
+
+     System.out.println(eov.methodOne(50.f,10.0f)); //methodOne(float,float);
+
+   }
+
+
+}
+===============
+package com.examly;
+
+public class First {
+
+    public void methodOne(){
+        System.out.println("we are in methodOne of Parent Class");
+    }
+
+    public String sayHello(){
+        return "Hello World";
+    }
+}
+
+
+package com.examly;
+
+public class Second extends First {
+
+    @Override
+    public void methodOne(){ //overriden method from First
+    System.out.println("we are in methodOne of Child Class:");
+    }
+
+    public void display(){
+      System.out.println("we are in display method");
+    }
+
+    public static void main(String[] args) {
+        
+     Second second = new Second();
+    second.methodOne();
+     System.out.println(second.sayHello());
+
+     //A superclass reference variable holding its subclass/child class object
+      
+     First first = new Second();
+     first.methodOne();
+
+    // first.display(); it check first methodSignature in parent class and followed by child class
+    
+
+   }
+
+}
+=============
+Demos on Interface:
+===================
+package com.examly;
+
+//interface contain abstract method,
+//abstract method : an method which has only delcaration but not definition (not implemenent)
+// public abstract returnType methodName(if any arguments);
+//once interface contain abstract methods,then who will implements these abstract methods?
+//Programmer/developer responsible to implement the interface with the help of class, i.e, class is responsible
+//to implement the interface/interfaces using implements KeyWord.
+//Note: Till Jdk 1.7 version interface contain only abstract methods..
+// From JDK 1.8 version interface contain abstract methods as well as we can delcare implemented methods,
+//these implemented methods cab be a default methods or static methods.
+//the variables in interface are : public static final variables and must be initialized.
+//syntax:  interface interfaceName{
+      //list of abstract methods
+//  }
+
+interface MyApp{
+    public abstract void methodOne();
+    public int addition(int x,int y,int z);
+    String getMessage();
+}
+
+public class TestApp implements MyApp{
+
+    @Override
+    public void methodOne() {
+     System.out.println("we are in methodOne of TestApp");  
+    }
+
+    @Override
+    public int addition(int x, int y, int z) {
+     return x+y+z;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Hello World";
+    }
+
+    public static void main(String[] args) {
+        TestApp testApp = new TestApp();
+
+        testApp.methodOne();;
+        System.out.println(testApp.addition(10,50,40));
+        System.out.println(testApp.getMessage());
+
+        //2nd Way  object
+        //Interface referenceName = new ImplementationClassName();
+
+        MyApp  myApp=new TestApp();
+
+        myApp.methodOne();
+        System.out.println(myApp.addition(40, 40, 40));
+        System.out.println(myApp.getMessage());
+
+
+    }
+
+}
+
+usecase 2:
+===========
+package com.examly;
+
+interface I1{
+    public void methodOne();
+    void display();
+}
+
+interface I2 extends I1{
+    public void methodTwo();
+    void display();
+}
+
+public class TestAppUseCase2 implements I2 {
+
+    @Override
+    public void methodOne() {
+      System.out.println("we are in methodOne");
+    }
+
+    @Override
+    public void methodTwo() {
+     System.out.println("we are in methodTwo");
+    }
+
+    @Override
+    public void display() {
+       System.out.println("we are in display ");
+    }
+
+}
+
+UseCase2:
+=========
+package com.examly;
+
+interface R1{
+    String msg="R1";
+    public abstract void addition(int a,int b,int c);
+}
+
+class First{
+
+    public void methodOne(){
+        System.out.println("We are in methodOne of First Class.")
+    }
+}
+
+public class TestAppUseCase3 extends First implements R1 {
+   @Override
+    public void addition(int a,int b,int c){
+    System.out.println((a+b+c));
+    }
+  //write the main method and call the methods...
+}
+
+UseCase 4:
+===========
+package com.examly;
+
+interface R2{
+    public int addition(int a,int b,int c);
+    public String sayHello();
+    public void methodOne();
+}  
+
+
+//if partially implemented the interface the delcare the class has abstract
+//then how to use the implemented methods from the abstract class?
+//then by creating new class extends From abstract class and provide implementation for unimplemented 
+//methods
+//we cannot instantiate for the abstract class.
+
+
+
+abstract class Test1 implements R2{
+
+    @Override
+    public int addition(int a, int b, int c) {
+      return a+b+c;
+    }
+
+    @Override
+    public String sayHello() {
+        return "Hello world";
+    }
+
+    //public abstract methodOne();
+
+}
+
+class Test2 extends Test1{
+    @Override
+    public void methodOne(){
+        System.out.println("we are in methodOne implemented in Test2");
+    }
+}
+
+public class TestAppUseCase4 {
+   public static void main(String[] args) {
+      Test2 test2 = new Test2();
+
+
+   }
+}

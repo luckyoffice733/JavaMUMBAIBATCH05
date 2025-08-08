@@ -236,3 +236,53 @@ public class TestAppUseCase4 {
 
    }
 }
+----------------------
+Lambda Expression:
+==================
+package com.examly;
+@FunctionalInterface
+interface Myapp{
+    public int addition(int a,int b);
+}
+
+@FunctionalInterface
+interface InnerTestApp {
+   public String sayHello();
+}
+@FunctionalInterface
+interface I1{
+    public void sumOfTwoNumbers(int a,int b);
+}
+
+public class TestApp{
+
+    public static void main(String[] args) {
+        
+        Myapp myapp = (a,b)-> a+b;
+        System.out.println(myapp.addition(50,60));
+
+        InnerTestApp innerTestApp= ()->{return "Hello World";};
+        System.out.println(innerTestApp.sayHello());
+
+        I1 iobj = (a,b)->{System.out.println("sum is : "+(a+b));};
+
+        iobj.sumOfTwoNumbers(50,30);
+
+    }
+   
+}
+//functional interfaces
+//methodReference in java8 (::)-> constructor reference,instance method reference,static methodMethodReference
+
+//LocalDate 
+//Optional Class
+//Streams
+
+
+
+
+
+
+
+
+

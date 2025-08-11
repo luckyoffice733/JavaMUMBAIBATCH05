@@ -1,0 +1,268 @@
+Generics
+--------
+
+<T>  --> T stands for DataTYpe -> But in Collections the Generic type should be Wrappers Class
+
+primitive TYpe   --  Wrapper class
+char			Character --> isLetter,isDigit,isLetterOrDefault...
+int			Integer
+long			Long
+float			Float
+double			Double 
+boolean			Boolean
+
+
+1)Create an object for ArrayList class and Store integer Objects
+
+
+ArrayList<Integer> al = new ArrayList<Integer>();
+
+ex:
+===
+Create an ArrayList Class to Store CustomObject -> Product
+
+
+ArrayList<Product> al = new ArrayList<Product>()
+
+
+ArrayList:
+==========
+package com.examly;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class ExampleOList1 {
+
+    public static void main(String[] args) {
+        
+   
+        ArrayList<String> al = new ArrayList<>();
+        al.add("mango");
+        al.add("apple");
+        al.add("kiwi");
+        al.add("pinleapple");
+        al.add("apple"); //duplicates allowed
+        al.add("banana");
+
+        System.out.println("All elements from the arraylist: "+al);
+        System.out.println("First Element is : "+al.get(0));  //
+
+        ArrayList<String> al2 = new ArrayList();
+       al2.add("orange");
+       al2.add("dragon");
+
+       //adding an arraylist object into existing arraylist using addAll()
+       al.addAll(al2);//at last 
+       System.out.println("All elements from the arraylist: "+al);
+
+       //remove an apple
+       al.remove("apple"); //alremove(1)
+         //after remove;
+       System.out.println("All elements from the arraylist: "+al);
+
+      //adding an element at specific index position 1
+      al.add(1,"grapes");
+      System.out.println("After element add specified position from the arraylist: "+al);
+
+      int index = al.indexOf("dragon");
+      if(index!=-1){
+            al.set(index,"watermelon");
+      }
+
+      System.out.println("After element update specified position from the arraylist: "+al);
+     
+      //displayin the using iterator -> forworad direction /listLiterator->(forward /backward)
+      //convert arraylist object into Iterator Object
+       System.out.println("Displaying elements using iterator");
+       Iterator<String> iobj=  al.iterator();
+      while(iobj.hasNext()){ // boolean hasNext() -> it places cursor at first element exist or not
+          String s= iobj.next(); //next() will return element
+          System.out.println(s);   //iobj.remove()// i want to apple 
+          if(s.equals("apple")){
+            iobj.remove();
+          }
+      }
+
+      //replace above code with  removeIf
+
+    // displaying elements using java8 Foreach() with help lambda expression or methodReference operator(::);
+
+    System.out.println("Using method resolution operator");
+    al.forEach(System.out::println);
+
+    System.out.println("Using lambda expression: ");
+    al.forEach(e -> {System.out.println(e);});
+
+    }
+
+}
+
+
+====================================================================
+Comparable Interface : Example:
+===============================
+package com.examly;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Product  implements Comparable<Product>{
+    private int pid;
+    private String productName;
+    private double price;
+    public Product(int pid, String productName, double price) {
+        this.pid = pid;
+        this.productName = productName;
+        this.price = price;
+    }
+    public int getPid() {
+        return pid;
+    }
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+    public String getProductName() {
+        return productName;
+    }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    @Override
+    public String toString() {
+        return "Product : pid=" + pid + "| productName=" + productName + " | price=" + price;
+    }
+    @Override
+    public int compareTo(Product others) {
+        // double diff=others.price-this.price;//ascending order
+        // return (int) diff;
+
+        return this.productName.compareTo(others.productName); //for string fields/properties -> ascending order.
+    }
+
+}
+
+public class Ex1 {
+
+
+   public static void main(String[] args) {
+       //create an list object  to store the Product Objects 
+       ArrayList<Product> al = new ArrayList<>();
+
+      al.add(new Product(2212,"mouse",6000));
+      al.add(new Product(12121,"laptop",60000));
+      al.add(new Product(2011,"mobile",10000));
+
+      System.out.println(al);
+
+      Collections.sort(al);
+     
+
+      System.out.println("Displaying the objects from  al:");
+      for(Product p:al){
+       System.out.println(p.getPid()+" "+p.getPrice()+" "+p.getProductName());
+      }
+
+
+
+
+   }
+
+
+}
+===============================================
+
+Comparator:
+=============
+package com.examly;
+
+import java.util.Comparator;
+
+public class MyComparator implements Comparator<Product> {
+
+    @Override
+    public int compare(Product p1, Product p2) {
+        
+       // return Double.compare(p1.getPrice(),p2.getPrice());
+       double diff = p1.getPrice()-p2.getPrice();
+      return (int) diff;
+        //return p1.getProductName().compareTo(p2.getProductName()); -> String field
+
+    }
+
+}
+
+==============================
+
+
+package com.examly;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+class Product {
+    private int pid;
+    private String productName;
+    private double price;
+    public Product(int pid, String productName, double price) {
+        this.pid = pid;
+        this.productName = productName;
+        this.price = price;
+    }
+    public int getPid() {
+        return pid;
+    }
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+    public String getProductName() {
+        return productName;
+    }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    @Override
+    public String toString() {
+        return "Product : pid=" + pid + "| productName=" + productName + " | price=" + price;
+    }
+   
+}
+
+public class Ex2 {
+
+
+   public static void main(String[] args) {
+       //create an list object  to store the Product Objects 
+       ArrayList<Product> al = new ArrayList<>();
+
+      al.add(new Product(2212,"mouse",6000));
+      al.add(new Product(12121,"laptop",60000));
+      al.add(new Product(2011,"mobile",10000));
+
+     // System.out.println(al);
+
+     Collections.sort(al,new MyComparator());
+
+     for(Product p:al){
+           System.out.println(p.getPid()+" "+p.getProductName()+" "+p.getPrice());
+     }
+
+
+
+   }
+
+
+}

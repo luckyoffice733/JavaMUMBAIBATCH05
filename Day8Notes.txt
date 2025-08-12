@@ -1,0 +1,191 @@
+package com.examly;
+
+import java.util.HashSet;
+
+class Student {
+    private int studentId;
+    private String studentName;
+    private double marks;
+
+    public Student() {
+    }
+
+    public Student(int studentId, String studentName, double marks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.marks = marks;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public double getMarks() {
+        return marks;
+    }
+
+    public void setMarks(double marks) {
+        this.marks = marks;
+    }
+
+
+    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + studentId;
+        result = prime * result + ((studentName == null) ? 0 : studentName.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(marks);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Student other = (Student) obj;
+        if (studentId != other.studentId)
+            return false;
+        if (studentName == null) {
+            if (other.studentName != null)
+                return false;
+        } else if (!studentName.equals(other.studentName))
+            return false;
+        if (Double.doubleToLongBits(marks) != Double.doubleToLongBits(other.marks))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Student [studentId=" + studentId + ", studentName=" + studentName + ", marks=" + marks + "]";
+    }
+
+
+}
+
+public class Ex1 {
+
+
+    public static void main(String[] args) {
+        
+     HashSet<Student> hs = new HashSet<>();
+    
+      Student s1 = new Student(4,"ALLEN",50);
+      Student s2 = new Student(5,"MARTIN",60);
+      Student s3 =new Student(3,"SCOTT",70);
+      Student s4 = new Student(4,"ALLEN",50);
+
+      hs.add(s1);
+      hs.add(s2);
+      hs.add(s3);
+      hs.add(s4);
+
+      System.out.println(hs);
+      
+      System.out.println("Details are :");
+      for(Student s:hs){
+       System.out.println(s.getStudentId()+" "+s.getStudentName()+" "+s.getMarks());
+      }
+
+
+
+    }
+
+}
+============
+package com.examly;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+class MyComparator implements Comparator<Student>{
+    @Override
+    public int compare(Student s1,Student s2){
+        return s2.getStudentId()-s1.getStudentId();
+    }
+}
+
+class Student{
+    private int studentId;
+    private String studentName;
+    private double marks;
+
+    public Student() {
+    }
+
+    public Student(int studentId, String studentName, double marks) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.marks = marks;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public double getMarks() {
+        return marks;
+    }
+
+    public void setMarks(double marks) {
+        this.marks = marks;
+    }
+
+    @Override
+    public String toString() {
+        return "Student [studentId=" + studentId + ", studentName=" + studentName + ", marks=" + marks + "]";
+    }
+
+}
+
+public class Ex2 {
+
+    public static void main(String[] args) {
+        
+ 
+        TreeSet<Student> ts = new TreeSet<>(new MyComparator());
+
+        ts.add(new Student(2,"MARTIN",50));
+        ts.add(new Student(1,"ALLEN",60));
+        ts.add(new Student(3, "SCOTT", 70));
+
+        System.out.println(ts);
+        
+
+
+    }
+
+}

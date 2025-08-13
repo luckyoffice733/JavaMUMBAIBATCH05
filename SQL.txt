@@ -1,0 +1,298 @@
+Data:- Collection of raw facts.
+Information: Processed Data or meaningful data.
+
+
+How these data generate factors:
+================================
+1)Social Media Platforms...
+2)E-commerce Platforms....
+3)NCDC--> National Climate Data Center
+4)Airplane --> Sensors data
+5)Stock Mark-> NSE --> 
+
+--->
+
+How Types Of Data:
+==================
+1)Structured Data:- in the form tables(rows and columns)
+2)Unstructured Data: ->Audios,videos,images
+3)Semi-Structured :xml-data,json,log files...
+
+
+1)DBMS:- Database Management System.
+RDBMS: Relational Database Management System.
+
+2)SQL: Structure Query Language.
+
+SQL DIVIDED INTO:
+
+DDL :-Data Definition Language-> CMDS: create,alter,drop,rename,truncate 
+ 
+DML : Data Manipulation Language -> CMDS: insert,update,delete and merge.
+
+DCL: Data Control Language---> CMDS: GRANT,REVOKE
+
+TCL : Transactions Control Language: -> Commit,RollBack,savepoint
+
+DRL : Data Retrieval Langauage or Data Query Language.  CMD:- Select
+
+
+
+1)DDL:
+======
+
+Create table syntax:
+--------------------
+Create table tableName(columnName1 datatype,.......columnNamen datatype);
+
+Ex:
+----
+create table with three columns empid,ename,salary
+
+sol: create table employee(empid int,ename varchar(30),salary decimal(10,2));
+
+
+DML:
+-----
+insert:
+=======
+
+syntax:
+========
+
+insert into tableName (coluname1,columnname2...,columnn)values
+                       (data1,data2....,datan);
+
+ex:
+===
+insert into employee (empid,ename,salary) values (1021,'smith',4000);
+
+2)multiple records:
+insert insert into employee (empid,ename,salary) values (1022,'martin',5000),
+                                                        (1023,'allen',6000),
+                                                        (1043,'james',8000);
+
+
+3) insert into employee values(1051,"blake",5000);
+
+select * from employee;
+
+
+//Ex2: create a table  product 
+
+columns : pid,pname,price,dateofdelivery,statusdeliverd;
+
+sol:  create table product(pid int,pname varchar(30),
+                            price float,
+                             dateofdelivery date, --format: yyyy-mm-dd
+                             statusdeliverd varchar(10));
+
+insert:
+=======
+insert into product (pid,pname,price,dateofdelivery,statusdelivered) values
+                  (1,'mouse',600,'2024-08-24','delivered'),
+                   (2,'laptop',50000,'2024-10-01','pending');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Select Queries:
+===============
+
+1) FROM dup_emp table
+
+1)Display all the empname whose ename start with  S  ->  2records -> like operator
+sol: select * from dup_emp where ename like 'S%';
+
+2)Display all the records where sal between the range 1500 and 2000
+sol: select * from dup_emp where sal between 1500 and 2000;
+or
+select * from dup_emp where sal>=1500 and sal<=2000;
+
+3)Display all the records in ascending order based on sal column
+sol: select * from dup_emp order by sal;
+
+4)write a query to display max,min,sum,avg salary.
+sol: select max(sal) as"maxSal", min(sal) "maxSal",sum(sal) as "sumsal", avg(sal) from dup_emp;
+
+5)write a query to display the records, where comm is not null.
+sol:  select * from dup_emp where comm is not null;
+
+
+
+Delete:
+========
+
+syntax:-   delete from tableName [where condition];
+
+1)write a query to delete a record where ename is allen.
+
+delete from dup_emp where ename='allen';
+
+2)write a query to delete a record ,whose sal is 3000
+delete from dup_emp where sal=3000
+
+3)write a query to delete a record whose ename is blake and smith.
+
+--delete from dup_emp where ename in('blake','smith'); //or conditon
+
+--delete from dup_emp where ename='blake' or  ename='smith';
+
+4)write a query to delete a record whose empno is 7566;
+
+delete from dup_emp where empno=7566;
+
+
+
+update:
+=======
+syntax:
+========
+
+update tableName set columName1=value1,columnName2=value2.. [where condition];
+1) write query to update a record of empno:7876 ,update comm column with 1000;
+soL:-  update dup_emp set comm=1000 where empno=7876;
+
+2)write query to update a sal of empno 7521 to 18 percent.(existing sal + 18 percent).
+
+soL=> update dup_emp set sal=sal+(sal*0.18) where empno=7521;
+
+
+=========
+
+Equi-join:
+==========
+MySQL [test]> select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e join dept d on(e.deptno= d.deptno);
+
+or
+
+> select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e, dept d where e.deptno=d.deptno;
+
+
+===>
+Left [outer] Join:
+-----------------
+
+select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e left outer join dept d on(e.deptno= d.deptno);
+
+
+Right [outer] Join:
+-------------------
+select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e right outer join dept d on(e.deptno= d.deptno);
+
+
+FUll [outer] Join:
+-------------------
+--select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e full outer join dept d on(e.deptno= d.deptno); --> not working in MySQL.
+
+select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e left outer join dept d on(e.deptno= d.deptno)
+union
+select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e right outer join dept d on(e.deptno= d.deptno);
+
+
+
+CROSS JOIN:
+===========
+select e.empno,e.ename,e.sal,d.deptno,d.dname,d.loc from emp e cross join dept d;
+
+
+SELF JOIN:
+==========
+joining  a table itself.
+
+Ex:write self join query to display employeename and its manager name.
+====
+select e.ename as employeeName,m.ename as manager from emp e join emp m where e.mgr=m.empno;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
